@@ -4,17 +4,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h> 
+#include <string>
 
 #define SDL_ASSERT_LEVEL 2 //DEBUG
+
+SDL_Texture* LoadTexture(SDL_Renderer *renderer, char *path)
+{
+    SDL_Texture *texture = NULL;
+    texture = IMG_LoadTexture(renderer, path);
+    if(texture == NULL) {
+        printf("Unable to create texture from %s! SDL Error: %s\n", path, SDL_GetError());
+        return NULL;
+    }
+    return texture;
+}
 
 int main(int argc, char *argv[])
 {
     setvbuf (stdout, NULL, _IONBF, 0);
     printf("Start\n");
-
-    #ifdef DEBUG
-        printf("Debug mode\n");
-    #endif
 
     int iGameWidth {1024},iGameHeight {768};
 
@@ -58,21 +66,47 @@ int main(int argc, char *argv[])
         }
     }
 
-    while (true)
+    //LOAD
+    SDL_Texture *img = LoadTexture(renderer, "./Ressources/Images/ship.png");
+    int w, h;
+    SDL_QueryTexture(img, NULL, NULL, &w, &h);
+    int x {100},y{100};
+    bool isRunning = true;
+
+    //UPDATE
+    while (isRunning)
     {
         SDL_Event event;
         if (SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT)
             {
+                isRunning = false;
                 break;
+            }
+
+            if (event.type == SDL_KEYDOWN){
+                //switch (event.key.keysym.sym)
+                //{
+                    //case SDLK_RIGHT:
+                        isRunning = false;
+                        x+=1;
+                        //break;
+                    
+                    //default:
+                    //    break;
+                //}
             }
         }
 
         SDL_RenderClear(renderer);
+
+        SDL_Rect rectDest = { x, y, w, h };
+        SDL_RenderCopy(renderer, img, NULL, &rectDest);
+
         SDL_RenderPresent(renderer);
     }
-
+    SDL_DestroyTexture(img);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     IMG_Quit();
