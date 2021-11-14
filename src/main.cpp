@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    SDL_Window *window = SDL_CreateWindow("Demo Game",
+    SDL_Window *window = SDL_CreateWindow("Animus Demo in C++!",
                                           SDL_WINDOWPOS_UNDEFINED,
                                           SDL_WINDOWPOS_UNDEFINED,
                                           iGameWidth,
@@ -67,10 +67,12 @@ int main(int argc, char *argv[])
     }
 
     //LOAD
-    SDL_Texture *img = LoadTexture(renderer, "./Ressources/Images/ship.png");
+    char* path = "./Ressources/Images/ship.png";
+    SDL_Texture *img = LoadTexture(renderer, path);
     int w, h;
     SDL_QueryTexture(img, NULL, NULL, &w, &h);
     int x {100},y{100};
+    int xSpeed {5},ySpeed {xSpeed};
     bool isRunning = true;
 
     //UPDATE
@@ -86,21 +88,29 @@ int main(int argc, char *argv[])
             }
 
             if (event.type == SDL_KEYDOWN){
-                //switch (event.key.keysym.sym)
-                //{
-                    //case SDLK_RIGHT:
-                        isRunning = false;
-                        x+=1;
-                        //break;
-                    
-                    //default:
-                    //    break;
-                //}
+                switch (event.key.keysym.sym)
+                {
+                    case SDLK_RIGHT:
+                        x+=xSpeed;
+                        break;
+                    case SDLK_LEFT:
+                        x-= ySpeed;
+                        break;
+                    case SDLK_UP:
+                        y-= ySpeed;
+                        break;
+                    case SDLK_DOWN:
+                        y+= ySpeed;
+                        break;
+                    default:
+                        break;  
+                }
             }
         }
 
         SDL_RenderClear(renderer);
 
+        //DRAW
         SDL_Rect rectDest = { x, y, w, h };
         SDL_RenderCopy(renderer, img, NULL, &rectDest);
 
