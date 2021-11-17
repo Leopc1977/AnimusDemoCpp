@@ -1,12 +1,14 @@
 #include <SDL2/SDL.h>
 #include "SDL2/SDL_image.h"
-#include <stdlib.h>     /* srand, rand */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h> 
 #include <string>
 #include <iostream>
+
+#include <Game/meteor.hpp>
+#include <Animus/helper.h>
 
 #define SDL_ASSERT_LEVEL 2 //DEBUG
 
@@ -16,36 +18,9 @@ bool isCol(int x1,int y1,int w1,int h1, int x2,int y2,int w2,int h2){
          y1 < y2+h2 &&
          y2 < y1+h1;
 }
-//random function
-int rnd(int s){
-    return rand() % s + 1;
-}
-
-class Meteor
-{
-    public:
-        Meteor(int pX=10,int pY=10){
-            x = pX;
-            y= pY;
-            speedX = rnd(5);
-            speedY = rnd(5);
-        }
-        int getX() {return x;}
-        int getY() {return y;}
-        void setX(int pX) {x = pX;}
-        void setY(int pY) {y = pY;}
-        int getW() {return w;}
-        int getH() {return h;}
-        int getSpeedX(){return speedX;}
-        int getSpeedY(){return speedY;}
-        void setSpeedX(){speedX=speedX*(-1);}
-        void setSpeedY(){speedY=speedY*(-1);}
-    private:
-        int x,y,w,h,speedX,speedY;
-};
 
 SDL_Texture* LoadTexture(SDL_Renderer *renderer, char *path)
-{
+{ 
     SDL_Texture *texture = NULL;
     texture = IMG_LoadTexture(renderer, path);
     if(texture == NULL) {

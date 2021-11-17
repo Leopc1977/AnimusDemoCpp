@@ -45,5 +45,6 @@
         "xstring": "cpp",
         "xutility": "cpp",
         "animusinfos.hpp": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }
