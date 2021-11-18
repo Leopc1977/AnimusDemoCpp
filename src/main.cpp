@@ -12,24 +12,6 @@
 
 #define SDL_ASSERT_LEVEL 2 //DEBUG
 
-bool isCol(int x1,int y1,int w1,int h1, int x2,int y2,int w2,int h2){
-  return x1 < x2+w2 &&
-         x2 < x1+w1 &&
-         y1 < y2+h2 &&
-         y2 < y1+h1;
-}
-
-SDL_Texture* LoadTexture(SDL_Renderer *renderer, char *path)
-{ 
-    SDL_Texture *texture = NULL;
-    texture = IMG_LoadTexture(renderer, path);
-    if(texture == NULL) {
-        printf("Unable to create texture from %s! SDL Error: %s\n", path, SDL_GetError());
-        return NULL;
-    }
-    return texture;
-}
-
 int main(int argc, char *argv[])
 {
     setvbuf (stdout, NULL, _IONBF, 0);

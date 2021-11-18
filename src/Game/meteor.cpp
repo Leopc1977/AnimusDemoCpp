@@ -1,5 +1,4 @@
 #include <Animus/helper.h>
-#include <Game/meteor.hpp>
 
 class Meteor
 {
